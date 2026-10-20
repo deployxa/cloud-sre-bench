@@ -1,0 +1,210 @@
+[
+  {
+    "id": "CASE-01",
+    "name": "Prisma migration failure",
+    "category": "DATABASE_MIGRATION_FAILURE",
+    "expected_action": "REMEDIATE_RESOLVE_DATABASE_MIGRATION",
+    "log": "prisma:error PrismaClientKnownRequestError: Migration 20261014120000_init failed to apply cleanly to database.\nDatabase migration failed.",
+    "description": "Schema drift or migration lock prevents database tables from applying cleanly."
+  },
+  {
+    "id": "CASE-02",
+    "name": "EADDRINUSE port collision",
+    "category": "PORT_BINDING_CONFLICT",
+    "expected_action": "REMEDIATE_REALLOCATE_PORT_BINDING",
+    "log": "Error: listen EADDRINUSE: address already in use :::3000\n[Deploy] Process exited with status 1.",
+    "description": "Application collided with an occupied port/socket on the host."
+  },
+  {
+    "id": "CASE-03",
+    "name": "App bound to loopback (127.0.0.1)",
+    "category": "PORT_BINDING_CONFLICT",
+    "expected_action": "REMEDIATE_BIND_ALL_INTERFACES",
+    "log": "[server] Express listening on http://127.0.0.1:3000\nReadiness probe failed to connect.",
+    "description": "Application bound strictly to loopback interface (127.0.0.1) instead of 0.0.0.0, blocking external platform ingress."
+  },
+  {
+    "id": "CASE-04",
+    "name": "Missing required env var (DATABASE_URL)",
+    "category": "INVALID_APPLICATION_CONFIG",
+    "expected_action": "REMEDIATE_INJECT_MISSING_ENV_VARS",
+    "log": "Error: missing required environment variable DATABASE_URL\nprocess terminated.",
+    "description": "Application crashed during bootstrap due to an undefined database connection string."
+  },
+  {
+    "id": "CASE-05",
+    "name": "Missing required env var (process.env)",
+    "category": "INVALID_APPLICATION_CONFIG",
+    "expected_action": "REMEDIATE_INJECT_MISSING_ENV_VARS",
+    "log": "TypeError: process.env.AUTH_SECRET is undefined\nApplication crashed on startup.",
+    "description": "Uncaught exception caused by accessing an undefined environment variable."
+  },
+  {
+    "id": "CASE-06",
+    "name": "TypeScript compilation error",
+    "category": "BUILD_COMPILATION_FAILED",
+    "expected_action": "REMEDIATE_TRIGGER_CLEAN_REBUILD",
+    "log": "Failed to compile.\n./app/dashboard/page.tsx:28:17\nType error: Property 'metrics' does not exist on type 'UserData'. TS2339",
+    "description": "Strict TypeScript compilation failure during Next.js/Vite build."
+  },
+  {
+    "id": "CASE-07",
+    "name": "next command not found",
+    "category": "DEPENDENCY_INSTALLATION_FAILED",
+    "expected_action": "REMEDIATE_PURGE_LOCKFILE_CACHE",
+    "log": "sh: next: command not found\nnpm run build exited with code 127",
+    "description": "Missing CLI binary in container environment due to incomplete node_modules."
+  },
+  {
+    "id": "CASE-08",
+    "name": "pip package version resolution failure",
+    "category": "DEPENDENCY_INSTALLATION_FAILED",
+    "expected_action": "REMEDIATE_PURGE_LOCKFILE_CACHE",
+    "log": "ERROR: Could not find a version that satisfies the requirement fastapi==99.0.0\nERROR: No matching distribution found",
+    "description": "Unsatisfiable Python package requirement in requirements.txt."
+  },
+  {
+    "id": "CASE-09",
+    "name": "JavaScript heap out of memory",
+    "category": "RESOURCE_EXHAUSTION",
+    "expected_action": "REMEDIATE_SCALE_MEMORY_QUOTA",
+    "log": "<--- Last few GCs --->\nFATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory",
+    "description": "V8 engine memory limit exceeded during large bundle compilation."
+  },
+  {
+    "id": "CASE-10",
+    "name": "Container OOM killed (exit 137)",
+    "category": "RESOURCE_EXHAUSTION",
+    "expected_action": "REMEDIATE_SCALE_MEMORY_QUOTA",
+    "log": "Process killed by cgroup controller\nContainer terminated unexpectedly with exit code 137",
+    "description": "Linux cgroup kernel OOM killer terminated the container process."
+  },
+  {
+    "id": "CASE-11",
+    "name": "Health check 404 Not Found",
+    "category": "HEALTH_CHECK_FAILURE",
+    "expected_action": "REMEDIATE_VERIFY_HEALTH_ENDPOINT_AND_PORT",
+    "log": "Deployment health check failed for http://10.206.222.3:3000/health: HTTP 404 Not Found after 10 attempts.",
+    "description": "HTTP readiness probe failed because application does not expose the configured health route."
+  },
+  {
+    "id": "CASE-12",
+    "name": "Internal DNS resolution failure",
+    "category": "NETWORKING_ROUTING_ERROR",
+    "expected_action": "REMEDIATE_RESYNC_SERVICE_ENDPOINTS",
+    "log": "Error: getaddrinfo ENOTFOUND api.service.internal:8080\nRequest failed.",
+    "description": "Container unable to resolve internal private service hostname."
+  },
+  {
+    "id": "CASE-13",
+    "name": "Dockerfile missing",
+    "category": "INVALID_APPLICATION_CONFIG",
+    "expected_action": "REMEDIATE_INJECT_MISSING_ENV_VARS",
+    "log": "ERROR: failed to read dockerfile: open Dockerfile: no such file or directory",
+    "description": "BuildKit failed to locate project Dockerfile during container compilation."
+  },
+  {
+    "id": "CASE-14",
+    "name": "Healthy deployment (HTTP 200 OK)",
+    "category": "NONE",
+    "expected_action": null,
+    "log": "[Deploy] Container deployed.\nProbe GET /healthz returned 200 OK\nDeployment verified SUCCESS.",
+    "description": "Normal, healthy deployment log. Model must NOT flag as failed."
+  },
+  {
+    "id": "CASE-15",
+    "name": "Healthy deployment (HTTP 200 Pong)",
+    "category": "NONE",
+    "expected_action": null,
+    "log": "[Health] HTTP probe returned 200 pong.\nService status: active and healthy.",
+    "description": "Clean deployment log with non-fatal informational messages. Model must return healthy status."
+  },
+  {
+    "id": "CASE-16",
+    "name": "Postgres connection refused (ECONNREFUSED)",
+    "category": "DATABASE_CONNECTION_UNREACHABLE",
+    "expected_action": "REMEDIATE_VERIFY_DATABASE_HOST_AND_NETWORK",
+    "log": "Error: connect ECONNREFUSED 10.0.0.4:5432\nDatabase connection failed at postgres://user:pass@10.0.0.4:5432/prod",
+    "description": "Target database server refused connection. Model must NOT suggest flushing ingress cache."
+  },
+  {
+    "id": "CASE-17",
+    "name": "Prisma P1001 database unreachable",
+    "category": "DATABASE_CONNECTION_UNREACHABLE",
+    "expected_action": "REMEDIATE_VERIFY_DATABASE_HOST_AND_NETWORK",
+    "log": "PrismaClientInitializationError: Can't reach database server at 'db.production:5432'. Please make sure your database server is running.",
+    "description": "Prisma database reachability failure. Model must NOT misclassify as migration failure."
+  },
+  {
+    "id": "CASE-18",
+    "name": "Postgres authentication failure",
+    "category": "DATABASE_AUTH_FAILED",
+    "expected_action": "REMEDIATE_UPDATE_DATABASE_CREDENTIALS",
+    "log": "FATAL: password authentication failed for user \"app_user\"\nConnection to database rejected.",
+    "description": "Database rejected authentication credentials. Model must NOT misclassify as schema migration."
+  },
+  {
+    "id": "CASE-19",
+    "name": "Missing build output directory (dist)",
+    "category": "MISSING_BUILD_OUTPUT",
+    "expected_action": "REMEDIATE_VERIFY_BUILD_OUTPUT_DIRECTORY",
+    "log": "Build completed in 4.2s\n[ERROR] No Output Directory named \"dist\" found after the Build completed.\nOutput directory \"dist\" does not exist.",
+    "description": "Build script output path does not match platform expected directory. Model must NOT suggest injecting env vars."
+  },
+  {
+    "id": "CASE-20",
+    "name": "TLS certificate expired",
+    "category": "NETWORKING_ROUTING_ERROR",
+    "expected_action": "REMEDIATE_RENEW_OR_TRUST_TLS_CERTIFICATE",
+    "log": "FetchError: request to https://auth.internal/v1 failed, reason: CERT_HAS_EXPIRED. unable to verify the first certificate.",
+    "description": "Expired or untrusted TLS certificate in service-to-service communication."
+  },
+  {
+    "id": "CASE-21",
+    "name": "Serverless function 504 Gateway Timeout",
+    "category": "DEPLOYMENT_TIMEOUT",
+    "expected_action": "REMEDIATE_EXTEND_FUNCTION_TIMEOUT_AND_WARMUP",
+    "log": "HTTP 504 Gateway Timeout: Task timed out after 30.00 seconds. Function invocation timeout.",
+    "description": "Serverless function execution exceeded deadline. Model must NOT misclassify as a container health check."
+  },
+  {
+    "id": "CASE-22",
+    "name": "Runtime TypeError uncaught crash",
+    "category": "RUNTIME_CRASH",
+    "expected_action": "REMEDIATE_FIX_UNCAUGHT_RUNTIME_EXCEPTION",
+    "log": "TypeError: Cannot read properties of undefined (reading 'map')\n    at renderUserList (/app/dist/server.js:142:25)\n    at Layer.handle",
+    "description": "Application crash caused by unhandled runtime JavaScript exception. Model must NOT misclassify as config error."
+  },
+  {
+    "id": "CASE-23",
+    "name": "Missing runtime module (fastapi)",
+    "category": "RUNTIME_CRASH",
+    "expected_action": "REMEDIATE_INSTALL_RUNTIME_DEPENDENCY",
+    "log": "Traceback (most recent call last):\n  File \"/app/main.py\", line 1, in <module>\nModuleNotFoundError: No module named 'fastapi'",
+    "description": "Python module missing in runtime image, causing startup failure."
+  },
+  {
+    "id": "CASE-24",
+    "name": "AI-hallucinated import path alias",
+    "category": "AI_HALLUCINATED_IMPORT",
+    "expected_action": "REMEDIATE_RESOLVE_HALLUCINATED_IMPORT",
+    "log": "Module not found: Can't resolve '@/lib/supabase-helpers' in '/app/src/app/page.tsx'",
+    "description": "AI code generator hallucinated a non-existent internal path. Model must NOT tell user to npm install supabase-js."
+  },
+  {
+    "id": "CASE-25",
+    "name": "npm ERESOLVE peer dependency conflict",
+    "category": "DEPENDENCY_INSTALLATION_FAILED",
+    "expected_action": "REMEDIATE_RESOLVE_NPM_PEER_DEPENDENCY",
+    "log": "npm ERR! code ERESOLVE\nnpm ERR! ERESOLVE unable to resolve dependency tree\nnpm ERR! Could not resolve dependency: peer react@\"^18.0.0\" from package-x",
+    "description": "npm peer dependency resolution lock conflict."
+  },
+  {
+    "id": "CASE-26",
+    "name": "Thin / Ambiguous log (Abstention Required)",
+    "category": "UNKNOWN",
+    "expected_action": "ESCALATE_HUMAN_SRE_AUDIT",
+    "log": "Deploy failed",
+    "description": "Log contains zero stack traces or codes. Model must return <0.5 confidence, STANDBY status, and abstain: true."
+  }
+]
