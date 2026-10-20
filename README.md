@@ -22,7 +22,7 @@ Traditional software benchmarks (like HumanEval or SWE-bench) evaluate Python co
 
 ## 🏆 Current Leaderboard (October 2026)
 
-Evaluated across **26 real-world deployment failure logs** and **14 grounded platform queries**:
+Leaderboard from our 384-incident eval; this repo ships a 26-case public subset.
 
 | Model | Model Size | Deployment Mode | Root-Cause Isolation | Verified Container Recovery | Clean Log False Alarms | Prompt Leak Rate |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
