@@ -1,0 +1,150 @@
+[
+  {
+    "id": "SRE-01",
+    "name": "FastAPI listener in a container",
+    "prompt": "Show a Dockerfile command for FastAPI using Uvicorn, binding all interfaces and reading the platform PORT environment variable with a default of 8080. Explain shell expansion.",
+    "required_patterns": [
+      [
+        "0\\.0\\.0\\.0"
+      ],
+      [
+        "\\buvicorn\\b"
+      ],
+      [
+        "\\bPORT\\b"
+      ],
+      [
+        "\\b8080\\b"
+      ],
+      [
+        "\\bsh\\b",
+        "\\bshell\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-02",
+    "name": "Missing project import",
+    "prompt": "A build reports: Module not found: Can't resolve '@/lib/supabase-helpers'. What should I inspect? Does this prove AI hallucinated the file?",
+    "required_patterns": [
+      [
+        "\\b(?:file|module)\\b"
+      ],
+      [
+        "\\b(?:alias|path|mapping)\\b"
+      ],
+      [
+        "\\b(?:cannot|not|insufficient|unknown)\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-03",
+    "name": "Occupied container port",
+    "prompt": "A container reports EADDRINUSE on port 3000. Explain duplicate listeners and the platform PORT variable, and give a first diagnostic step.",
+    "required_patterns": [
+      [
+        "\\b(?:listener|listeners|process|processes)\\b"
+      ],
+      [
+        "\\bPORT\\b"
+      ],
+      [
+        "EADDRINUSE",
+        "\\b(?:occupied|use|collision)\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-04",
+    "name": "Loopback listener",
+    "prompt": "My application listens on 127.0.0.1:3000 but the platform reports no open ports. Explain the likely binding issue and how to use the assigned PORT.",
+    "required_patterns": [
+      [
+        "0\\.0\\.0\\.0"
+      ],
+      [
+        "127\\.0\\.0\\.1"
+      ],
+      [
+        "\\bPORT\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-05",
+    "name": "Node.js heap exhaustion",
+    "prompt": "Node.js reports JavaScript heap out of memory. Explain NODE_OPTIONS and --max-old-space-size, and why the container memory limit matters.",
+    "required_patterns": [
+      [
+        "\\bNODE_OPTIONS\\b"
+      ],
+      [
+        "--max-old-space-size"
+      ],
+      [
+        "\\bcontainer\\b",
+        "\\bcgroup\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-06",
+    "name": "Database reachability",
+    "prompt": "Prisma reports P1001: Can't reach database server. Which host, port, and network checks should I do? Distinguish this from migration or authentication errors.",
+    "required_patterns": [
+      [
+        "\\b(?:reach|reachability|connectivity|connection)\\b"
+      ],
+      [
+        "\\bhost\\b"
+      ],
+      [
+        "\\bport\\b"
+      ],
+      [
+        "\\b(?:network|firewall|dns)\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-07",
+    "name": "Missing Dockerfile",
+    "prompt": "BuildKit cannot open Dockerfile: no such file or directory. What should I check about the file path and build context?",
+    "required_patterns": [
+      [
+        "\\bDockerfile\\b"
+      ],
+      [
+        "\\b(?:path|location)\\b"
+      ],
+      [
+        "\\bcontext\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  },
+  {
+    "id": "SRE-08",
+    "name": "Unsatisfiable package version",
+    "prompt": "pip cannot find any distribution for fastapi==99.0.0. How should I verify and correct the dependency requirement?",
+    "required_patterns": [
+      [
+        "\\b(?:version|versions)\\b"
+      ],
+      [
+        "\\b(?:requirement|requirements|constraint|constraints)\\b"
+      ],
+      [
+        "\\b(?:available|exists|valid|supported|published|pypi)\\b"
+      ]
+    ],
+    "forbidden_patterns": []
+  }
+]

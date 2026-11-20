@@ -1,0 +1,74 @@
+[
+  {
+    "id": "PLATFORM-01",
+    "name": "Reference pricing",
+    "prompt": "According to the reference, what are the Starter and Pro monthly prices?",
+    "required_patterns": [
+      [
+        "\\$9\\b"
+      ],
+      [
+        "\\$29\\b"
+      ],
+      [
+        "\\bStarter\\b"
+      ],
+      [
+        "\\bPro\\b"
+      ]
+    ],
+    "context": "This is a fictionalized evaluation reference derived from legacy Deployxa test expectations, not a verified current product page. Starter costs $9 per month; Pro costs $29 per month. The example platform supports FastAPI applications. Custom domains use the Domains page with CNAME target cname.deployxa.com. Configuration uses the Environment Variables page. The model name listed in this reference is Deployxa LM 1.0.",
+    "forbidden_patterns": []
+  },
+  {
+    "id": "PLATFORM-02",
+    "name": "Reference framework support",
+    "prompt": "Which Python framework does the reference explicitly list as supported?",
+    "required_patterns": [
+      [
+        "\\bFastAPI\\b"
+      ]
+    ],
+    "context": "This is a fictionalized evaluation reference derived from legacy Deployxa test expectations, not a verified current product page. Starter costs $9 per month; Pro costs $29 per month. The example platform supports FastAPI applications. Custom domains use the Domains page with CNAME target cname.deployxa.com. Configuration uses the Environment Variables page. The model name listed in this reference is Deployxa LM 1.0.",
+    "forbidden_patterns": []
+  },
+  {
+    "id": "PLATFORM-03",
+    "name": "Reference custom domain setup",
+    "prompt": "According to the reference, which page and CNAME target are used for a custom domain?",
+    "required_patterns": [
+      [
+        "\\bDomains\\b"
+      ],
+      [
+        "\\bcname\\.deployxa\\.com\\b"
+      ]
+    ],
+    "context": "This is a fictionalized evaluation reference derived from legacy Deployxa test expectations, not a verified current product page. Starter costs $9 per month; Pro costs $29 per month. The example platform supports FastAPI applications. Custom domains use the Domains page with CNAME target cname.deployxa.com. Configuration uses the Environment Variables page. The model name listed in this reference is Deployxa LM 1.0.",
+    "forbidden_patterns": []
+  },
+  {
+    "id": "PLATFORM-04",
+    "name": "Reference configuration page",
+    "prompt": "Which page does the reference name for setting environment variables?",
+    "required_patterns": [
+      [
+        "\\bEnvironment Variables\\b"
+      ]
+    ],
+    "context": "This is a fictionalized evaluation reference derived from legacy Deployxa test expectations, not a verified current product page. Starter costs $9 per month; Pro costs $29 per month. The example platform supports FastAPI applications. Custom domains use the Domains page with CNAME target cname.deployxa.com. Configuration uses the Environment Variables page. The model name listed in this reference is Deployxa LM 1.0.",
+    "forbidden_patterns": []
+  },
+  {
+    "id": "PLATFORM-05",
+    "name": "Reference model name",
+    "prompt": "What model name is listed in the reference? This question is about the reference, not your identity.",
+    "required_patterns": [
+      [
+        "\\bDeployxa LM 1\\.0\\b"
+      ]
+    ],
+    "context": "This is a fictionalized evaluation reference derived from legacy Deployxa test expectations, not a verified current product page. Starter costs $9 per month; Pro costs $29 per month. The example platform supports FastAPI applications. Custom domains use the Domains page with CNAME target cname.deployxa.com. Configuration uses the Environment Variables page. The model name listed in this reference is Deployxa LM 1.0.",
+    "forbidden_patterns": []
+  }
+]

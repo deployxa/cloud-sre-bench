@@ -11,9 +11,9 @@
     "id": "CASE-02",
     "name": "EADDRINUSE port collision",
     "category": "PORT_BINDING_CONFLICT",
-    "expected_action": "REMEDIATE_REALLOCATE_PORT_BINDING",
+    "expected_action": "REMEDIATE_VERIFY_PORT_BINDING",
     "log": "Error: listen EADDRINUSE: address already in use :::3000\n[Deploy] Process exited with status 1.",
-    "description": "Application collided with an occupied port/socket on the host."
+    "description": "An occupied socket is reported. Inspect duplicate listeners and the configured platform port before changing bindings."
   },
   {
     "id": "CASE-03",
@@ -43,25 +43,25 @@
     "id": "CASE-06",
     "name": "TypeScript compilation error",
     "category": "BUILD_COMPILATION_FAILED",
-    "expected_action": "REMEDIATE_TRIGGER_CLEAN_REBUILD",
+    "expected_action": "REMEDIATE_FIX_COMPILATION_ERROR",
     "log": "Failed to compile.\n./app/dashboard/page.tsx:28:17\nType error: Property 'metrics' does not exist on type 'UserData'. TS2339",
-    "description": "Strict TypeScript compilation failure during Next.js/Vite build."
+    "description": "A TypeScript type error requires a source/type correction before rebuilding."
   },
   {
     "id": "CASE-07",
     "name": "next command not found",
     "category": "DEPENDENCY_INSTALLATION_FAILED",
-    "expected_action": "REMEDIATE_PURGE_LOCKFILE_CACHE",
+    "expected_action": "REMEDIATE_INSTALL_BUILD_DEPENDENCY",
     "log": "sh: next: command not found\nnpm run build exited with code 127",
-    "description": "Missing CLI binary in container environment due to incomplete node_modules."
+    "description": "The next executable is unavailable; verify declared dependencies and build-stage installation."
   },
   {
     "id": "CASE-08",
     "name": "pip package version resolution failure",
     "category": "DEPENDENCY_INSTALLATION_FAILED",
-    "expected_action": "REMEDIATE_PURGE_LOCKFILE_CACHE",
+    "expected_action": "REMEDIATE_FIX_DEPENDENCY_CONSTRAINT",
     "log": "ERROR: Could not find a version that satisfies the requirement fastapi==99.0.0\nERROR: No matching distribution found",
-    "description": "Unsatisfiable Python package requirement in requirements.txt."
+    "description": "The requested package version cannot be resolved. Correct the requirement, rather than deleting caches."
   },
   {
     "id": "CASE-09",
@@ -76,8 +76,8 @@
     "name": "Container OOM killed (exit 137)",
     "category": "RESOURCE_EXHAUSTION",
     "expected_action": "REMEDIATE_SCALE_MEMORY_QUOTA",
-    "log": "Process killed by cgroup controller\nContainer terminated unexpectedly with exit code 137",
-    "description": "Linux cgroup kernel OOM killer terminated the container process."
+    "log": "memory.events: oom_kill 1\nProcess killed by cgroup controller\nContainer terminated unexpectedly with exit code 137",
+    "description": "An explicit cgroup OOM event supports memory exhaustion; exit 137 alone would be insufficient."
   },
   {
     "id": "CASE-11",
@@ -91,17 +91,17 @@
     "id": "CASE-12",
     "name": "Internal DNS resolution failure",
     "category": "NETWORKING_ROUTING_ERROR",
-    "expected_action": "REMEDIATE_RESYNC_SERVICE_ENDPOINTS",
+    "expected_action": "REMEDIATE_VERIFY_SERVICE_DNS_AND_HOST",
     "log": "Error: getaddrinfo ENOTFOUND api.service.internal:8080\nRequest failed.",
-    "description": "Container unable to resolve internal private service hostname."
+    "description": "Inspect DNS records and hostname configuration, including whether a port was incorrectly included in the hostname."
   },
   {
     "id": "CASE-13",
     "name": "Dockerfile missing",
-    "category": "INVALID_APPLICATION_CONFIG",
-    "expected_action": "REMEDIATE_INJECT_MISSING_ENV_VARS",
+    "category": "BUILD_CONFIGURATION_ERROR",
+    "expected_action": "REMEDIATE_FIX_DOCKERFILE_PATH",
     "log": "ERROR: failed to read dockerfile: open Dockerfile: no such file or directory",
-    "description": "BuildKit failed to locate project Dockerfile during container compilation."
+    "description": "Verify the Dockerfile path and build context; environment-variable injection cannot fix a missing file."
   },
   {
     "id": "CASE-14",
@@ -124,8 +124,8 @@
     "name": "Postgres connection refused (ECONNREFUSED)",
     "category": "DATABASE_CONNECTION_UNREACHABLE",
     "expected_action": "REMEDIATE_VERIFY_DATABASE_HOST_AND_NETWORK",
-    "log": "Error: connect ECONNREFUSED 10.0.0.4:5432\nDatabase connection failed at postgres://user:pass@10.0.0.4:5432/prod",
-    "description": "Target database server refused connection. Model must NOT suggest flushing ingress cache."
+    "log": "Error: connect ECONNREFUSED db.example.invalid:5432\nDatabase connection failed at postgres://[REDACTED_CREDENTIALS]@db.example.invalid:5432/example",
+    "description": "The database connection was refused; check host, service availability, and network access. Credentials are removed in the fixture."
   },
   {
     "id": "CASE-17",
@@ -155,9 +155,9 @@
     "id": "CASE-20",
     "name": "TLS certificate expired",
     "category": "NETWORKING_ROUTING_ERROR",
-    "expected_action": "REMEDIATE_RENEW_OR_TRUST_TLS_CERTIFICATE",
+    "expected_action": "REMEDIATE_RENEW_TLS_CERTIFICATE",
     "log": "FetchError: request to https://auth.internal/v1 failed, reason: CERT_HAS_EXPIRED. unable to verify the first certificate.",
-    "description": "Expired or untrusted TLS certificate in service-to-service communication."
+    "description": "Check and renew the expired certificate and its chain; do not disable TLS verification."
   },
   {
     "id": "CASE-21",
@@ -185,11 +185,11 @@
   },
   {
     "id": "CASE-24",
-    "name": "AI-hallucinated import path alias",
-    "category": "AI_HALLUCINATED_IMPORT",
-    "expected_action": "REMEDIATE_RESOLVE_HALLUCINATED_IMPORT",
+    "name": "Missing project import path alias",
+    "category": "MISSING_PROJECT_IMPORT",
+    "expected_action": "REMEDIATE_VERIFY_PROJECT_IMPORT",
     "log": "Module not found: Can't resolve '@/lib/supabase-helpers' in '/app/src/app/page.tsx'",
-    "description": "AI code generator hallucinated a non-existent internal path. Model must NOT tell user to npm install supabase-js."
+    "description": "The project import cannot be resolved. Verify the file and alias configuration. The log does not establish that AI authored it."
   },
   {
     "id": "CASE-25",
@@ -205,6 +205,6 @@
     "category": "UNKNOWN",
     "expected_action": "ESCALATE_HUMAN_SRE_AUDIT",
     "log": "Deploy failed",
-    "description": "Log contains zero stack traces or codes. Model must return <0.5 confidence, STANDBY status, and abstain: true."
+    "description": "Evidence is insufficient: UNKNOWN, escalation action, confidence strictly below 0.5, and abstain=true are all required."
   }
 ]
